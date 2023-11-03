@@ -20,7 +20,6 @@ app.use(cors());
 app.use(express.static('website'));
 
 const port = 8000;
-const hostName = 'localHost';
 
 // TODO-Spin up the server
 const server = app.listen(port, listening);
@@ -30,18 +29,16 @@ function listening() {
 };
 
 // GET route
-app.get('/storeData', (request, response)=>{
-    console.log("get", projectData);
+app.get('/all', function(request, response)=>{
+    console.log("Get", projectData);
     response.send(projectData);
 });
 
 
 // POST route that adds incoming data to projectData
-app.post('/clientData', (request, response)=>{
+app.post('/added', function(request, response)=>{
     projectData = request.body;
     console.log("Post", projectData);
     response.send(projectData);
   });
-
-
 
