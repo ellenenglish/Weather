@@ -21,27 +21,29 @@ document.getElementById('generate').addEventListener('click', getUserInfo);
 function getUserInfo(e){
     const zip =  document.getElementById('zip').value;
     const feelings = document.getElementById('feelings').value;
-    getWeather(baseURL, zip, apiKey).then(function(info) {
-        postData('http://localhost:8000/clientData', {date: newDate, temp:info.main.temp, content:feelings, high:info.main.max, low: info.main.low})
+    getWeather(baseURL, zip, apiKey)
+    .then(function(info) {
+
+        postData('/added', {date: newDate, temp:info.main.temp, content:feelings, high:info.main.max, low: info.main.low})
     })
 };
 
 
 const getWeather = async (baseURL, zip, apiKey)=>{
   try {
-    const response = await fetch(baseURL+zip+apiKey);
-    const data = await response.json();
+    const weatherResponse = await fetch(baseURL+zip+apiKey);
+    const data = await weatherResponse.json();
     console.log(data)
     return data;
   }  catch(error) {
     console.log("error", error);
     // appropriately handle the error
   }
-}
+};
 
 const postData = async ( url = '', data = {})=>{
     console.log(data);
-      const response = await fetch(url, {
+      const response = await fetch (url, {
       method: 'POST', 
       credentials: 'same-origin',
       headers: {
@@ -60,7 +62,7 @@ const postData = async ( url = '', data = {})=>{
 
 
   const updateInfo = async() => {
-    const request = await fetch('http://localhost:8000/storeData');
+    const request = await fetch('/all')
     try{
       const newData = await request.json;
         document.getElementById('date').innerHTML = "Date: " + newData.date;
