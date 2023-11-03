@@ -1,5 +1,5 @@
 /* Empty JS object to act as endpoint for all routes */
-projectData = {};
+let projectData = {};
 
 // Express to run server and routes
 const express = require('express');
@@ -19,7 +19,7 @@ app.use(cors());
 /* Initializing the main project folder */
 app.use(express.static('website'));
 
-const port = 3000;
+const port = 8000;
 
 // TODO-Spin up the server
 const server = app.listen(port, listening);
@@ -28,6 +28,17 @@ function listening() {
     console.log(`running on localhost: ${port}`);
 };
 
+// GET route
+app.get('/all', function(request, response)=>{
+    console.log("Get", projectData);
+    response.send(projectData);
+});
 
 
+// POST route that adds incoming data to projectData
+app.post('/added', function(request, response)=>{
+    projectData = request.body;
+    console.log("Post", projectData);
+    response.send(projectData);
+  });
 
