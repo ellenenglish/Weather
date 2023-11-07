@@ -29,14 +29,14 @@ function listening() {
 };
 
 // GET route
-app.get('/all', function(request, response)=>{
+app.get('/all', function(request, response){
     console.log("Get", projectData);
     response.send(projectData);
 });
 
 
 // POST route that adds incoming data to projectData
-app.post('/added', function(request, response)=>{
+app.post('/added', function(request, response){
     projectData = request.body;
     console.log("Post", projectData);
     response.send(projectData);
