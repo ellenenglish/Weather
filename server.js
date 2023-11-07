@@ -20,6 +20,7 @@ app.use(cors());
 app.use(express.static('website'));
 
 const port = 8000;
+const hostName = 'localHost';
 
 // TODO-Spin up the server
 const server = app.listen(port, listening);
@@ -41,4 +42,5 @@ app.post('/added', function(request, response){
     console.log("Post", projectData);
     response.send(projectData);
   });
+
 
