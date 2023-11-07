@@ -24,7 +24,7 @@ function getUserInfo(e){
     getWeather(baseURL, zip, apiKey)
     .then(function(info) {
 
-        postData('/added', {date: newDate, temp:info.main.temp, content:feelings, high:info.main.max, low: info.main.low})
+        postData('/added', {date: newDate, temp:info.main.temp, content:feelings})
     })
 };
 
@@ -40,40 +40,38 @@ const getWeather = async (baseURL, zip, apiKey)=>{
     // appropriately handle the error
   }
 };
-
+// Async POST
 const postData = async ( url = '', data = {})=>{
-    console.log(data);
-      const response = await fetch (url, {
-      method: 'POST', 
-      credentials: 'same-origin',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-     // Body data type must match "Content-Type" header        
-      body: JSON.stringify(data), 
-    });
-  
-      try {
-        updateInfo()
-      }catch(error) {
-      console.log("error", error);
-      };
-  };
 
+  const response = await fetch(url, {
+  method: 'POST', 
+  credentials: 'same-origin', 
+  headers: {
+      'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(data), // body data type must match "Content-Type" header        
+});
 
-  const updateInfo = async() => {
-    const request = await fetch('/all')
+  try {
+    const newData = await response.json();
+    return newData;
+  }catch(error) {
+  console.log("error", error);
+  }
+};
+
+  const updateUI = async() => {
+    const request = await fetch('/all');
     try{
-      const newData = await request.json;
-        document.getElementById('date').innerHTML = "Date: " + newData.date;
-        document.getElementById('temp').innerHTML = "Current Temperature: " + Math.round(newData.temp) + "&degC";
-        document.getElementById('feelings').innerHTML = "I feel : " + newData.content;
+      const allData = await request.json;
+        document.getElementById('date').innerHTML = "Date: " + allData[0].date;
+        document.getElementById('temp').innerHTML = "Current Temperature: " + Math.round(allData[0].temp) + "&degC";
+        document.getElementById('feelings').innerHTML = "I feel : " + allData[0].content;
 
    }catch(error){
-    console.log("error:", error);
+    console.log("error", error);
     // appropriately an error
    };
 };
-
 
 
